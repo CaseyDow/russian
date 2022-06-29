@@ -1,0 +1,86 @@
+.theme-def {
+  --bkg: #ddd;
+  --acc: #a66;
+}
+.theme-col {
+  --bkg: linear-gradient(to right, #eee 0%, #99f 50%, #f99 100%);
+}
+
+html {
+  box-sizing: border-box;
+  font-family: Verdana;
+  line-height: 1.5;
+}
+* {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  background: var(--bkg);
+  min-height: 100vh;
+}
+
+h1, h2, p {
+  margin: 10px 0;
+  color: #000;
+}
+h1 {
+  font-size: 10vw;
+}
+h2 {
+  font-size: calc(12px + 2vw);
+}
+p {
+  font-size: calc(12px + 1vw);
+}
+@media (min-width: 400px) {
+  h1 {
+    font-size: calc(36px + 1vw);
+  }
+  h2 {
+    font-size: calc(16px + 1vw);
+  }
+  p {
+    font-size: calc(14px + 0.5vw);
+  }
+}
+@media (min-width: 600px) {
+  h1 {
+    font-size: calc(5vw + 12px);
+  }
+}
+
+#search {
+  border: 2px solid #aaa;
+  width: 80vw;
+  padding: 12px;
+  margin: 12px auto;
+  display: block;
+  font-size: 16px;
+}
+
+#vocab {
+  border-collapse: collapse;
+  border: 2px solid #aaa;
+  width: 80vw;
+  font-size: 18px;
+  display: block;
+  margin: auto;
+  display: table;
+  margin-bottom: 10vh;
+}
+
+#vocab th, #vocab td {
+  text-align: left;
+  padding: 12px;
+}
+
+#vocab tr {
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  width: 80vw;
+}
+
+#vocab tr.header, #vocab tr:hover {
+  background-color: #eee;
+}

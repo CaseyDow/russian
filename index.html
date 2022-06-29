@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Learn Russian</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./index.css">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+
+  <!-- Title -->
+  <div>
+    <h1 style="text-align: center; padding: 6vh 0;">
+      Learn Russian
+    </h1>
+  </div>
+
+  <!-- Search Bar -->
+  <input type="text" id="search" onkeyup="search()" placeholder="Search for word…">
+
+  <!-- List of Elements -->
+  <table id="vocab">
+    <tr id="head" class="header">
+      <th style="width:35%">English</th>
+      <th style="width:35%">Russian</th>
+      <th style="width:15%">Category</th>
+      <th style="width:15%">Speech</th>
+    </tr>
+  </table>
+
+</body>
+
+<script type="text/javascript">
+  document.body.classList.add("theme-def");
+
+  function search() {
+    let filter = document.getElementById("search").value.toLowerCase();
+    let tr = document.getElementById("vocab").getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+      let td = tr[i].getElementsByTagName("td")[0] || "";
+      if ((td.textContent || td.innerText).toLowerCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+
+  function loadVocab() {
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQWjIWA9AHu9eOmx4uzX1YI8akKlkK1I0SCqb3a00mncov6QhAJfJuxr3zVZXDkLvPJbq7isBMNKVtH/pub?output=csv")
+    .then(response => response.text())
+    .then(text => {
+      const ar = text.split("\n").map(r => r.split(","));
+      for (let i = 3; i < ar.length; i++) {
+        let row = document.getElementById("vocab").insertRow();
+        for (let j = 1; j < 5; j++) {
+          row.insertCell().appendChild(document.createTextNode(ar[i][j]));
+        }
+      }
+    });
+  }
+
+  const synth = new SpeechSynthesisUtterance();
+  synth.voice = speechSynthesis.getVoices().find(v => v.lang == "ru-RU");
+  synth.rate = 0.5;
+
+  document.getElementById("vocab").addEventListener("click", (e) => {
+    const [x, y] = [
+      e.target.cellIndex, 
+      e.target.parentElement.rowIndex
+    ];
+    if (x === undefined || y === undefined) return;
+    synth.text = document.getElementsByTagName("tr")[y].childNodes[1].textContent.split("/")[0].split("(")[0];
+    speechSynthesis.speak(synth);
+  });
+
+  loadVocab();
+
+
+</script>
+
+</html>
